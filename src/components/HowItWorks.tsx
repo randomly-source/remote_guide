@@ -66,7 +66,7 @@ export function HowItWorks({
           </motion.div>)}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 pb-safe bg-white/90 backdrop-blur-md border-t border-gray-100">
+      <div className="fixed bottom-0 left-0 right-0 px-4 pt-4 pb-8 pb-safe bg-white/90 backdrop-blur-md border-t border-gray-100">
         <div className="max-w-2xl mx-auto">
           <Button onClick={onContinue} fullWidth className="min-h-[52px]">
             I understand, let's setup

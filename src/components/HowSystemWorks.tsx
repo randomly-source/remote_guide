@@ -277,7 +277,7 @@ export function HowSystemWorks({
         type: 'spring',
         stiffness: 300,
         damping: 30
-      }} className="fixed bottom-0 left-0 right-0 z-[60] p-4 pb-safe bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg">
+      }} className="fixed bottom-0 left-0 right-0 z-[60] px-4 pt-4 pb-8 pb-safe bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg">
             <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Clock className="w-4 h-4 shrink-0" />

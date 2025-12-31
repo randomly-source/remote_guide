@@ -24,21 +24,21 @@ export function OnboardingSlide({
   isLastSlide = false
 }: OnboardingSlideProps) {
   return (
-    <div className="flex flex-col h-full px-6 pt-8 pb-4 max-w-md mx-auto relative">
+    <div className="flex flex-col h-full px-4 pt-4 pb-2 max-w-md mx-auto relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="flex-1 flex flex-col items-center justify-center text-center"
       >
-        <div className="mb-6 p-6 bg-blue-50 rounded-full">{icon}</div>
+        <div className="mb-3 p-3 bg-blue-50 rounded-full">{icon}</div>
 
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 leading-tight">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 leading-tight">
           {title}
         </h1>
 
         {description && (
-          <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+          <p className="text-gray-600 text-base mb-4 leading-relaxed">
             {description}
           </p>
         )}

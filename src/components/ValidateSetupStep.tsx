@@ -67,7 +67,7 @@ export function ValidateSetupStep({
         </motion.div>
 
         {/* Sticky Footer CTA */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 pb-safe z-10">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 pt-4 pb-8 pb-safe z-10">
           <div className="max-w-2xl mx-auto">
             <Button onClick={onValidate} fullWidth className="text-base sm:text-lg h-12">
               Start Checks

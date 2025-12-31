@@ -120,16 +120,20 @@ export function SetupStep({
           </motion.div>
         </AnimatePresence>
 
-        {/* Sticky Footer CTA */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 pb-safe z-10">
-          <div className="max-w-2xl mx-auto space-y-4">
-            {/* Progress Dots */}
+        {/* Progress Indicators - Above the button container */}
+        <div className="fixed bottom-[100px] left-0 right-0 z-10 pb-safe">
+          <div className="max-w-2xl mx-auto px-4">
             <div className="flex justify-center gap-1.5">
               {Array.from({
               length: totalSteps
             }).map((_, i) => <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i <= currentStepIndex ? 'w-10 bg-[#4A90E2]' : 'w-2 bg-gray-200'}`} />)}
             </div>
+          </div>
+        </div>
 
+        {/* Sticky Footer CTA */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 z-10 flex items-center justify-center" style={{ paddingTop: '16px', paddingBottom: `calc(16px + env(safe-area-inset-bottom))`, minHeight: '76px' }}>
+          <div className="max-w-2xl mx-auto w-full">
             <Button onClick={onNext} fullWidth className="text-base sm:text-lg h-12">
               {step.isVerificationStep ? 'Mark as Done' : 'Next'}
             </Button>

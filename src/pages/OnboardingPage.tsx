@@ -128,8 +128,8 @@ export function OnboardingPage({
                 title="Your Voice Shapes What America Watches"
                 description="Join thousands of households making an impact on the future of entertainment."
                 icon={
-                  <div className="w-16 h-16 bg-[#4A90E2] rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
-                    <span className="text-white font-bold text-3xl">N</span>
+                  <div className="w-12 h-12 bg-[#4A90E2] rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                    <span className="text-white font-bold text-2xl">N</span>
                   </div>
                 }
               />
@@ -140,24 +140,24 @@ export function OnboardingPage({
               <OnboardingSlide
                 title="Your Privacy is Our Priority"
                 description="We use bank-level encryption to keep your data 100% secure and confidential."
-                icon={<ShieldCheck className="w-16 h-16 text-[#4A90E2]" />}
+                icon={<ShieldCheck className="w-12 h-12 text-[#4A90E2]" />}
               >
-                <div className="space-y-4 text-left bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <Lock className="w-5 h-5 text-green-500 shrink-0" />
-                    <span className="text-gray-700 font-medium">
+                <div className="space-y-3 text-left bg-gray-50 p-4 rounded-xl border border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-green-500 shrink-0" />
+                    <span className="text-gray-700 text-sm font-medium">
                       Bank-level encryption
                     </span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
-                    <span className="text-gray-700 font-medium">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                    <span className="text-gray-700 text-sm font-medium">
                       Never sell your personal data
                     </span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5 text-green-500 shrink-0" />
-                    <span className="text-gray-700 font-medium">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-green-500 shrink-0" />
+                    <span className="text-gray-700 text-sm font-medium">
                       100% secure & confidential
                     </span>
                   </div>
@@ -170,18 +170,18 @@ export function OnboardingPage({
               <OnboardingSlide
                 title="Join 40,000+ Households"
                 description="Be part of a community that has shaped media for over 95 years."
-                icon={<Users className="w-16 h-16 text-[#4A90E2]" />}
+                icon={<Users className="w-12 h-12 text-[#4A90E2]" />}
               >
-                <div className="grid grid-cols-1 gap-3">
-                  <Card className="bg-blue-50 border-blue-100">
-                    <h3 className="font-bold text-gray-900">95+ Years</h3>
-                    <p className="text-sm text-gray-600">
+                <div className="grid grid-cols-1 gap-2">
+                  <Card className="bg-blue-50 border-blue-100 p-3">
+                    <h3 className="font-bold text-sm text-gray-900">95+ Years</h3>
+                    <p className="text-xs text-gray-600">
                       Of trusted research history
                     </p>
                   </Card>
-                  <Card className="bg-purple-50 border-purple-100">
-                    <h3 className="font-bold text-gray-900">Real Influence</h3>
-                    <p className="text-sm text-gray-600">
+                  <Card className="bg-purple-50 border-purple-100 p-3">
+                    <h3 className="font-bold text-sm text-gray-900">Real Influence</h3>
+                    <p className="text-xs text-gray-600">
                       Decide what shows get renewed
                     </p>
                   </Card>
@@ -194,22 +194,22 @@ export function OnboardingPage({
               <OnboardingSlide
                 title="Get Rewarded for Your Time"
                 description="Earn monthly rewards and exclusive perks just for participating."
-                icon={<Gift className="w-16 h-16 text-[#4A90E2]" />}
+                icon={<Gift className="w-12 h-12 text-[#4A90E2]" />}
               >
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#4A90E2] to-[#357ABD] p-6 text-white shadow-xl mb-4">
-                  <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#4A90E2] to-[#357ABD] p-4 text-white shadow-xl mb-3">
+                  <div className="absolute top-0 right-0 -mt-2 -mr-2 w-16 h-16 bg-white opacity-10 rounded-full blur-xl"></div>
                   <div className="relative z-10 text-center">
-                    <p className="text-blue-100 font-medium mb-1">Earn up to</p>
-                    <h2 className="text-5xl font-bold mb-2">$60</h2>
-                    <p className="text-blue-100">per month in rewards</p>
+                    <p className="text-blue-100 text-sm font-medium mb-1">Earn up to</p>
+                    <h2 className="text-3xl font-bold mb-1">$60</h2>
+                    <p className="text-blue-100 text-sm">per month in rewards</p>
                   </div>
                 </div>
-                <div className="flex justify-center gap-4 text-sm text-gray-500">
+                <div className="flex justify-center gap-3 text-xs text-gray-500">
                   <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-4 h-4" /> Easy setup
+                    <CheckCircle2 className="w-3 h-3" /> Easy setup
                   </span>
                   <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-4 h-4" /> Exclusive perks
+                    <CheckCircle2 className="w-3 h-3" /> Exclusive perks
                   </span>
                 </div>
               </OnboardingSlide>
@@ -217,49 +217,52 @@ export function OnboardingPage({
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Arrows */}
-        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
+        {/* Navigation and Progress Indicators - At bottom of carousel */}
+        <div className="absolute bottom-12 left-0 right-0 flex items-center justify-center gap-4 z-10 px-4">
+          {/* Previous Button - Left */}
           <button
             onClick={handlePrev}
             disabled={currentSlide === 0}
-            className={`pointer-events-auto w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center transition-all ${
+            className={`w-10 h-8 rounded-md bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center transition-all ${
               currentSlide === 0
-                ? 'opacity-0 cursor-not-allowed'
+                ? 'opacity-30 cursor-not-allowed'
                 : 'opacity-100 hover:bg-white'
             }`}
           >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
+            <ChevronLeft className="w-4 h-4 text-gray-700" />
           </button>
+
+          {/* Progress Indicators - Centered */}
+          <div className="flex justify-center gap-2">
+            {Array.from({ length: totalSlides }).map((_, index) => (
+              <div
+                key={index}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  index === currentSlide 
+                    ? 'w-8 bg-[#4A90E2]' 
+                    : 'w-1.5 bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Next Button - Right */}
           <button
             onClick={handleNext}
             disabled={currentSlide === totalSlides - 1}
-            className={`pointer-events-auto w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center transition-all ${
+            className={`w-10 h-8 rounded-md bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center transition-all ${
               currentSlide === totalSlides - 1
-                ? 'opacity-0 cursor-not-allowed'
+                ? 'opacity-30 cursor-not-allowed'
                 : 'opacity-100 hover:bg-white'
             }`}
           >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
+            <ChevronRight className="w-4 h-4 text-gray-700" />
           </button>
-        </div>
-
-        {/* Progress Indicators - At bottom of carousel */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <div
-              key={index}
-              className={`h-1 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'w-8 bg-[#4A90E2]' 
-                  : 'w-1.5 bg-gray-300'
-              }`}
-            />
-          ))}
         </div>
       </div>
 
       {/* Email/OTP Section - Fixed at bottom */}
-      <div className="flex-shrink-0 border-t border-gray-200 bg-white p-6 pb-safe">
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-6 px-6 pb-12 pb-safe">
         <div className="max-w-md mx-auto">
           <EmailOTP onVerified={handleEmailVerified} />
         </div>

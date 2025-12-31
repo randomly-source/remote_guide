@@ -495,8 +495,8 @@ export function CompactHomeSections({
         type: 'spring',
         stiffness: 300,
         damping: 30
-      }} className="fixed bottom-0 left-0 right-0 z-[60] p-4 pb-safe bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg">
-            <div className="max-w-4xl mx-auto">
+      }} className="fixed bottom-0 left-0 right-0 z-[60] px-4 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg flex items-center justify-center" style={{ paddingTop: '12px', paddingBottom: `calc(12px + env(safe-area-inset-bottom))`, minHeight: '72px' }}>
+            <div className="max-w-4xl mx-auto w-full">
               <div className="relative">
                 <span className="absolute -top-2 right-2 text-xs text-gray-500 font-medium bg-white px-2 py-0.5 rounded-full border border-gray-200">
                   ~30 min
