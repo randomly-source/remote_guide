@@ -5,6 +5,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { BottomNav } from './components/BottomNav';
 import { DetailsVerification } from './components/DetailsVerification';
 import { EquipmentOverview } from './components/EquipmentOverview';
+import { PhoneFrame } from './components/PhoneFrame';
 import { Card } from './components/ui/Card';
 import { Button } from './components/ui/Button';
 import { HelpCircle, Phone, MessageCircle, X } from 'lucide-react';
@@ -14,6 +15,7 @@ export function App() {
   const [showEquipmentModal, setShowEquipmentModal] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
+  const [showStickyCTA, setShowStickyCTA] = useState(false);
   // Check if onboarding was already completed
   useEffect(() => {
     const onboardingCompleted = localStorage.getItem('nielsen-onboarding-completed');
@@ -26,12 +28,15 @@ export function App() {
     setShowOnboarding(false);
   };
   if (showOnboarding) {
-    return <OnboardingPage onComplete={handleOnboardingComplete} />;
+    return <PhoneFrame>
+      <OnboardingPage onComplete={handleOnboardingComplete} />
+    </PhoneFrame>;
   }
-  return <div className="min-h-screen bg-[#F5F3F0] text-[#2D3748] font-sans selection:bg-blue-100">
+  return <PhoneFrame>
+    <div className="min-h-screen bg-[#F5F3F0] text-[#2D3748] font-sans selection:bg-blue-100 flex flex-col">
       {/* Header - only show on home page */}
       {currentView === 'home' && <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <div className="max-w-4xl md:max-w-full mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button onClick={() => setCurrentView('home')} className="flex items-center gap-3">
               <div className="w-8 h-8 bg-[#4A90E2] rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">N</span>
@@ -40,17 +45,13 @@ export function App() {
                 <div className="font-bold text-lg tracking-tight">Nielsen</div>
               </div>
             </button>
-
-            <button onClick={() => setCurrentView('help')} className="text-gray-500 hover:text-gray-700 p-2 active:scale-95 transition-transform">
-              <HelpCircle className="w-6 h-6" />
-            </button>
           </div>
         </header>}
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-4xl md:max-w-full mx-auto px-4 sm:px-6 py-6">
         {currentView === 'home' && <div className="pb-32">
-            <HomePage onStartSetup={() => setCurrentView('setup')} onViewEquipment={() => setShowEquipmentModal(true)} onViewProfile={() => setCurrentView('profile')} onModalStateChange={setAnyModalOpen} />
+            <HomePage onStartSetup={() => setCurrentView('setup')} onViewEquipment={() => setShowEquipmentModal(true)} onViewProfile={() => setCurrentView('profile')} onModalStateChange={setAnyModalOpen} onStickyCTAChange={setShowStickyCTA} />
           </div>}
 
         {currentView === 'setup' && <SetupGuide onModalStateChange={setAnyModalOpen} />}
@@ -139,7 +140,8 @@ export function App() {
           </div>
         </div>}
 
-      {/* Bottom Navigation - Hidden when any modal is open */}
-      {!showEquipmentModal && !anyModalOpen && <BottomNav active={currentView} onNavigate={setCurrentView} />}
-    </div>;
+      {/* Bottom Navigation - Always show on setup page, otherwise hide when modals/sticky CTA are showing */}
+      {(currentView === 'setup' || (!showEquipmentModal && !anyModalOpen && !showStickyCTA)) && <BottomNav active={currentView} onNavigate={setCurrentView} />}
+    </div>
+  </PhoneFrame>;
 }

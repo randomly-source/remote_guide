@@ -30,7 +30,7 @@ export function HowItWorks({
     title: 'Streaming Meter',
     desc: 'Measures online content streamed to your TV.'
   }];
-  return <div className="max-w-2xl mx-auto pb-24">
+  return <div className="max-w-2xl md:max-w-full mx-auto pb-24">
       <div className="text-center mb-8 sm:mb-10">
         <h2 className="text-xl sm:text-2xl font-bold text-[#2D3748] mb-2 sm:mb-3">
           How the magic happens
@@ -66,8 +66,8 @@ export function HowItWorks({
           </motion.div>)}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 px-4 pt-4 pb-8 pb-safe bg-white/90 backdrop-blur-md border-t border-gray-100">
-        <div className="max-w-2xl mx-auto">
+      <div className="fixed md:sticky bottom-0 left-0 right-0 px-4 pt-4 pb-8 pb-safe bg-white/90 backdrop-blur-md border-t border-gray-100 mt-auto">
+        <div className="max-w-2xl md:max-w-full mx-auto">
           <Button onClick={onContinue} fullWidth className="min-h-[52px]">
             I understand, let's setup
           </Button>

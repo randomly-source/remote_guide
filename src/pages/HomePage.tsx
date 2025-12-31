@@ -10,12 +10,14 @@ interface HomePageProps {
   onViewEquipment: () => void;
   onViewProfile: () => void;
   onModalStateChange: (isOpen: boolean) => void;
+  onStickyCTAChange?: (isShowing: boolean) => void;
 }
 export function HomePage({
   onStartSetup,
   onViewEquipment,
   onViewProfile,
-  onModalStateChange
+  onModalStateChange,
+  onStickyCTAChange
 }: HomePageProps) {
   const [hasProgress, setHasProgress] = useState(false);
   useEffect(() => {
@@ -34,7 +36,7 @@ export function HomePage({
       <div className="my-8 border-t border-gray-200"></div>
 
       {/* All Three Sections - Compact Version */}
-      <CompactHomeSections onStartSetup={onStartSetup} onModalStateChange={onModalStateChange} />
+      <CompactHomeSections onStartSetup={onStartSetup} onModalStateChange={onModalStateChange} onStickyCTAChange={onStickyCTAChange} />
 
       {/* Optional: Your Specialist - Can be removed if too long */}
       <motion.div initial={{

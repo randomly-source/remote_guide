@@ -24,7 +24,7 @@ export function OnboardingSlide({
   isLastSlide = false
 }: OnboardingSlideProps) {
   return (
-    <div className="flex flex-col h-full px-4 pt-4 pb-2 max-w-md mx-auto relative">
+    <div className="flex flex-col h-full px-4 pt-4 pb-2 max-w-md md:max-w-full mx-auto relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -105,6 +105,13 @@ export function SetupGuide({
     const isModalOpen = showEquipmentModal || modalViews.includes(view);
     onModalStateChange(isModalOpen);
   }, [showEquipmentModal, view, onModalStateChange]);
+  
+  // Ensure modal state is reset when view is journey (explicit check)
+  useEffect(() => {
+    if (view === 'journey' && !showEquipmentModal) {
+      onModalStateChange(false);
+    }
+  }, [view, showEquipmentModal, onModalStateChange]);
   const handleStartMilestone = (id: MilestoneId) => {
     // Handle Validate Setup task
     if (id === 'validate-setup') {
@@ -400,7 +407,7 @@ export function SetupGuide({
         </div>}
 
       {view === 'step' && currentMilestone && <>
-          {getStepsForMilestone(currentMilestone)?.[currentStepIndex] && <SetupStep step={getStepsForMilestone(currentMilestone)[currentStepIndex]} currentStepIndex={currentStepIndex} totalSteps={getStepsForMilestone(currentMilestone).length} milestoneTitle={getMilestoneTitle(currentMilestone)} isCompleted={completedMilestones.includes(currentMilestone)} onNext={handleStepNext} onBack={handleStepBack} onClose={handleStepClose} />}
+          {getStepsForMilestone(currentMilestone)?.[currentStepIndex] && transitionState === 'none' && <SetupStep step={getStepsForMilestone(currentMilestone)[currentStepIndex]} currentStepIndex={currentStepIndex} totalSteps={getStepsForMilestone(currentMilestone).length} milestoneTitle={getMilestoneTitle(currentMilestone)} isCompleted={completedMilestones.includes(currentMilestone)} onNext={handleStepNext} onBack={handleStepBack} onClose={handleStepClose} />}
 
           {/* Milestone Completion Celebration & Loader */}
           <AnimatePresence>
@@ -410,7 +417,7 @@ export function SetupGuide({
           opacity: 1
         }} exit={{
           opacity: 0
-        }} className="fixed inset-0 bg-white z-[70] flex flex-col items-center justify-center">
+        }} className="fixed inset-0 bg-white z-[80] flex flex-col items-center justify-center px-4">
                 <motion.div initial={{
             scale: 0
           }} animate={{
@@ -431,7 +438,7 @@ export function SetupGuide({
             y: 0
           }} transition={{
             delay: 0.2
-          }} className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          }} className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center">
                   {completedMilestoneName} Complete!
                 </motion.h2>
                 <motion.p initial={{
@@ -440,7 +447,7 @@ export function SetupGuide({
             opacity: 1
           }} transition={{
             delay: 0.3
-          }} className="text-gray-600 text-lg">
+          }} className="text-gray-600 text-lg text-center">
                   Great work! 🎉
                 </motion.p>
               </motion.div>}
@@ -451,7 +458,7 @@ export function SetupGuide({
           opacity: 1
         }} exit={{
           opacity: 0
-        }} className="fixed inset-0 bg-white z-[70] flex flex-col items-center justify-center px-4">
+        }} className="fixed inset-0 bg-white z-[80] flex flex-col items-center justify-center px-4">
                 <div className="max-w-md w-full">
                   {/* Next Task Name or Congratulations */}
                   {isLastTask ? <motion.div initial={{

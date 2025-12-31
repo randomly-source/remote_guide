@@ -219,7 +219,9 @@ export function SetupJourney({
                         <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
                       </div>
                     ) : isCompleted ? (
-                      <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8 text-[#6FCF97] fill-green-100" />
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-600 flex items-center justify-center">
+                        <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={3} />
+                      </div>
                     ) : (
                       <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-gray-200 flex items-center justify-center">
                         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />

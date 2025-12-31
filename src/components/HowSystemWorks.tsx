@@ -3,6 +3,7 @@ import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tv, Wifi, Shield, Lock, ArrowRight, Radio, Eye, EyeOff, Play, Clock } from 'lucide-react';
+import { usePhoneFrame } from './PhoneFrame';
 interface HowSystemWorksProps {
   onGetStarted: () => void;
 }
@@ -11,10 +12,13 @@ export function HowSystemWorks({
 }: HowSystemWorksProps) {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const step1Ref = useRef<HTMLDivElement>(null);
+  const { scrollContainerRef, isInFrame } = usePhoneFrame();
+  
   // Debug: Log when state changes
   useEffect(() => {
     console.log('Sticky CTA state:', showStickyCTA);
   }, [showStickyCTA]);
+  
   useEffect(() => {
     const handleScroll = () => {
       if (step1Ref.current) {
@@ -27,11 +31,23 @@ export function HowSystemWorks({
         setShowStickyCTA(shouldShow);
       }
     };
+    
     // Check immediately on mount
     handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    
+    // Use scroll container if in frame, otherwise use window
+    const scrollTarget = isInFrame && scrollContainerRef?.current 
+      ? scrollContainerRef.current 
+      : window;
+    
+    if (isInFrame && scrollContainerRef?.current) {
+      scrollContainerRef.current.addEventListener('scroll', handleScroll);
+      return () => scrollContainerRef.current?.removeEventListener('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [isInFrame, scrollContainerRef]);
   return <div className="mb-8">
       {/* Header */}
       <motion.div initial={{
@@ -277,8 +293,8 @@ export function HowSystemWorks({
         type: 'spring',
         stiffness: 300,
         damping: 30
-      }} className="fixed bottom-0 left-0 right-0 z-[60] px-4 pt-4 pb-8 pb-safe bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg">
-            <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+      }} className="fixed md:sticky bottom-0 left-0 right-0 z-[60] px-4 pt-4 pb-8 pb-safe bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg mt-auto">
+            <div className="max-w-4xl md:max-w-full mx-auto flex items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Clock className="w-4 h-4 shrink-0" />
                 <span className="font-medium">~30 min setup</span>

@@ -263,7 +263,7 @@ export function OnboardingPage({
 
       {/* Email/OTP Section - Fixed at bottom */}
       <div className="flex-shrink-0 border-t border-gray-200 bg-white pt-6 px-6 pb-12 pb-safe">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md md:max-w-full mx-auto">
           <EmailOTP onVerified={handleEmailVerified} />
         </div>
       </div>

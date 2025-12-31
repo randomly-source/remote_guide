@@ -37,7 +37,7 @@ export function RecheckStep({
 
   return (
     <>
-      <div className="flex flex-col max-w-2xl mx-auto">
+      <div className="flex flex-col max-w-2xl md:max-w-full mx-auto">
         {/* Modal Header */}
         <div className="flex-shrink-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex items-center justify-between -mx-4 sm:-mx-6 -mt-6 mb-6 sm:mb-8 sticky top-0 z-10">
           <div className="flex items-center gap-3">
@@ -108,9 +108,9 @@ export function RecheckStep({
           </div>
         </motion.div>
 
-        {/* Sticky Footer CTA */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 pt-4 pb-8 pb-safe z-10">
-          <div className="max-w-2xl mx-auto">
+        {/* Sticky Footer CTA - Fixed to bottom, replaces bottom nav */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 pt-4 pb-8 pb-safe z-[60]">
+          <div className="max-w-2xl md:max-w-full mx-auto">
             <Button onClick={onConfirm} fullWidth className="text-base sm:text-lg h-12">
               Yes, looks alright now!
             </Button>

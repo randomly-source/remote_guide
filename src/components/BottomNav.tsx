@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, Clipboard, User, HelpCircle } from 'lucide-react';
+import { usePhoneFrame } from './PhoneFrame';
 type NavItem = 'home' | 'setup' | 'profile' | 'help';
 interface BottomNavProps {
   active: NavItem;
@@ -9,6 +10,7 @@ export function BottomNav({
   active,
   onNavigate
 }: BottomNavProps) {
+  const { isInFrame } = usePhoneFrame();
   const items = [{
     id: 'home' as NavItem,
     icon: Home,
@@ -26,8 +28,10 @@ export function BottomNav({
     icon: HelpCircle,
     label: 'Help'
   }];
-  return <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-safe z-50">
-      <div className="max-w-4xl mx-auto px-2">
+  // When in frame, use sticky positioning to stick to bottom of scroll container
+  // When on mobile, use fixed positioning relative to viewport
+  return <nav className={isInFrame ? "sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-safe z-50 mt-auto" : "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 pb-safe z-50"}>
+      <div className="max-w-4xl md:max-w-full mx-auto px-2">
         <div className="flex items-center justify-around">
           {items.map(item => {
           const Icon = item.icon;

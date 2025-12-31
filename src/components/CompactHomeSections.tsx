@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePhoneFrame } from './PhoneFrame';
 import { Award, Shield, Users, TrendingUp, Tv, Wifi, Lock, EyeOff, Clock, CheckCircle, ArrowRight, Zap, ChevronDown, Play, X, Phone } from 'lucide-react';
 // ========================================
 // VIDEO CONFIGURATION
@@ -42,14 +43,17 @@ const getVideoEmbedUrl = (url: string): {
 interface CompactHomeSectionsProps {
   onStartSetup: () => void;
   onModalStateChange: (isOpen: boolean) => void;
+  onStickyCTAChange?: (isShowing: boolean) => void;
 }
 export function CompactHomeSections({
   onStartSetup,
-  onModalStateChange
+  onModalStateChange,
+  onStickyCTAChange
 }: CompactHomeSectionsProps) {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const { scrollContainerRef, isInFrame } = usePhoneFrame();
   // Detect video type
   const videoInfo = getVideoEmbedUrl(VIDEO_CONFIG.videoUrl);
   useEffect(() => {
@@ -59,14 +63,32 @@ export function CompactHomeSections({
         setShowStickyCTA(rect.top < 73);
       }
     };
+    
+    // Check immediately on mount
     handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    
+    // Use scroll container if in frame, otherwise use window
+    const scrollTarget = isInFrame && scrollContainerRef?.current 
+      ? scrollContainerRef.current 
+      : window;
+    
+    if (isInFrame && scrollContainerRef?.current) {
+      scrollContainerRef.current.addEventListener('scroll', handleScroll);
+      return () => scrollContainerRef.current?.removeEventListener('scroll', handleScroll);
+    } else {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [isInFrame, scrollContainerRef]);
   // Notify parent when modal state changes
   useEffect(() => {
     onModalStateChange(showVideoModal);
   }, [showVideoModal, onModalStateChange]);
+  
+  // Notify parent when sticky CTA state changes
+  useEffect(() => {
+    onStickyCTAChange?.(showStickyCTA);
+  }, [showStickyCTA, onStickyCTAChange]);
   return <>
       {/* PART 1: Why Nielsen - Compact Trust Section */}
       <div className="mb-10">
@@ -496,7 +518,7 @@ export function CompactHomeSections({
         stiffness: 300,
         damping: 30
       }} className="fixed bottom-0 left-0 right-0 z-[60] px-4 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg flex items-center justify-center" style={{ paddingTop: '12px', paddingBottom: `calc(12px + env(safe-area-inset-bottom))`, minHeight: '72px' }}>
-            <div className="max-w-4xl mx-auto w-full">
+            <div className="max-w-4xl md:max-w-full mx-auto w-full">
               <div className="relative">
                 <span className="absolute -top-2 right-2 text-xs text-gray-500 font-medium bg-white px-2 py-0.5 rounded-full border border-gray-200">
                   ~30 min
