@@ -6,6 +6,61 @@ This file contains all user-facing text content organized by screen/component wi
 
 ## ONBOARDING SCREEN
 
+**Note**: The onboarding now uses a carousel with autoplay (5 seconds per slide) and email/OTP verification below the carousel. The sign-up form slide has been removed.
+
+### Email/OTP Verification
+- **ID**: `onboarding_email_label`
+- **Content**: "Email Address"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_email_placeholder`
+- **Content**: "Enter your email"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_send_otp_button`
+- **Content**: "Send OTP"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_sending_otp`
+- **Content**: "Sending..."
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_otp_title`
+- **Content**: "Almost there!"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_otp_instruction`
+- **Content**: "Check your email inbox on your phone and tap the verification link to verify your account."
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_otp_label`
+- **Content**: "Enter verification code"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_otp_sent_to`
+- **Content**: "Sent to: {email}"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_verify_button`
+- **Content**: "Verify"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_verifying`
+- **Content**: "Verifying..."
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_edit_email`
+- **Content**: "Edit email"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_resend_code`
+- **Content**: "Resend code"
+- **Location**: `src/components/EmailOTP.tsx`
+
+- **ID**: `onboarding_resend_cooldown`
+- **Content**: "Resend code ({resendCooldown}s)"
+- **Location**: `src/components/EmailOTP.tsx`
+
 ### Slide 1: Welcome
 - **ID**: `onboarding_slide1_title`
 - **Content**: "Your Voice Shapes What America Watches"
@@ -104,60 +159,7 @@ This file contains all user-facing text content organized by screen/component wi
 
 - **ID**: `onboarding_slide4_cta`
 - **Content**: "Sign Me Up"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-### Slide 5: Sign Up Form
-- **ID**: `onboarding_slide5_title`
-- **Content**: "Let's Get Started"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_description`
-- **Content**: "Create your account to begin your Nielsen journey."
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_name_label`
-- **Content**: "Full Name"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_name_placeholder`
-- **Content**: "Jane Doe"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_email_label`
-- **Content**: "Email Address"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_email_placeholder`
-- **Content**: "jane@example.com"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_phone_label`
-- **Content**: "Phone"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_phone_placeholder`
-- **Content**: "(555) 123-4567"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_zip_label`
-- **Content**: "Zip Code"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_field_zip_placeholder`
-- **Content**: "12345"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_submit_button`
-- **Content**: "Create Account"
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_slide5_terms`
-- **Content**: "By continuing, you agree to our Terms of Service and Privacy Policy."
-- **Location**: `src/pages/OnboardingPage.tsx`
-
-- **ID**: `onboarding_skip_button`
-- **Content**: "Skip"
-- **Location**: `src/pages/OnboardingPage.tsx`
+- **Location**: `src/pages/OnboardingPage.tsx` (Note: CTA buttons removed, carousel autoplays)
 
 ---
 

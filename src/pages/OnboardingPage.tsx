@@ -1,46 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OnboardingSlide } from '../components/OnboardingSlide';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { ShieldCheck, Users, Gift, Tv, Lock, CheckCircle2, ArrowRight, ChevronRight } from 'lucide-react';
+import { EmailOTP } from '../components/EmailOTP';
+import { ShieldCheck, Users, Gift, Lock, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
+
 interface OnboardingPageProps {
   onComplete: () => void;
 }
+
 export function OnboardingPage({
   onComplete
 }: OnboardingPageProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    zip: ''
-  });
-  const totalSlides = 5;
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const totalSlides = 4; // Removed sign-up form slide
+  // Autoplay carousel
+  useEffect(() => {
+    if (!isAutoplayPaused) {
+      autoplayIntervalRef.current = setInterval(() => {
+        setCurrentSlide((prev) => {
+          if (prev < totalSlides - 1) {
+            setDirection(1);
+            return prev + 1;
+          } else {
+            // Loop back to first slide
+            setDirection(1);
+            return 0;
+          }
+        });
+      }, 5000); // Change slide every 5 seconds
+    }
+
+    return () => {
+      if (autoplayIntervalRef.current) {
+        clearInterval(autoplayIntervalRef.current);
+      }
+    };
+  }, [isAutoplayPaused, totalSlides]);
+
   const handleNext = () => {
     if (currentSlide < totalSlides - 1) {
       setDirection(1);
       setCurrentSlide(prev => prev + 1);
-    } else {
-      onComplete();
+      setIsAutoplayPaused(true);
+      // Resume autoplay after 10 seconds
+      setTimeout(() => setIsAutoplayPaused(false), 10000);
     }
   };
-  const handleSkip = () => {
-    // Go straight to sign up (last slide)
-    setDirection(1);
-    setCurrentSlide(totalSlides - 1);
+
+  const handlePrev = () => {
+    if (currentSlide > 0) {
+      setDirection(-1);
+      setCurrentSlide(prev => prev - 1);
+      setIsAutoplayPaused(true);
+      // Resume autoplay after 10 seconds
+      setTimeout(() => setIsAutoplayPaused(false), 10000);
+    }
   };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+  const handleEmailVerified = (email: string) => {
+    // Store email in localStorage if needed
+    localStorage.setItem('nielsen-user-email', email);
+    onComplete();
   };
   const slideVariants = {
     enter: (direction: number) => ({
@@ -62,55 +87,61 @@ export function OnboardingPage({
   const swipePower = (offset: number, velocity: number) => {
     return Math.abs(offset) * velocity;
   };
-  return <div className="min-h-screen bg-white overflow-hidden flex flex-col">
-      {/* Progress Indicators */}
-      <div className="px-6 pt-6 pb-2 flex gap-2 z-10">
-        {Array.from({
-        length: totalSlides
-      }).map((_, index) => <div key={index} className={`h-1.5 rounded-full flex-1 transition-all duration-300 ${index <= currentSlide ? 'bg-[#4A90E2]' : 'bg-gray-200'}`} />)}
-      </div>
-
-      {/* Skip Button */}
-      {currentSlide < totalSlides - 1 && <div className="absolute top-6 right-6 z-20">
-          <button onClick={handleSkip} className="text-gray-400 font-medium text-sm px-3 py-1 hover:text-gray-600 transition-colors">
-            Skip
-          </button>
-        </div>}
-
-      {/* Slides Container */}
-      <div className="flex-1 relative">
+  return (
+    <div className="min-h-screen-safe bg-white flex flex-col">
+      {/* Carousel Container */}
+      <div className="flex-1 relative overflow-hidden pt-6 flex flex-col">
         <AnimatePresence initial={false} custom={direction}>
-          <motion.div key={currentSlide} custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
-          x: {
-            type: 'spring',
-            stiffness: 300,
-            damping: 30
-          },
-          opacity: {
-            duration: 0.2
-          }
-        }} drag="x" dragConstraints={{
-          left: 0,
-          right: 0
-        }} dragElastic={1} onDragEnd={(e, {
-          offset,
-          velocity
-        }) => {
-          const swipe = swipePower(offset.x, velocity.x);
-          if (swipe < -swipeConfidenceThreshold) {
-            handleNext();
-          } else if (swipe > swipeConfidenceThreshold && currentSlide > 0) {
-            setDirection(-1);
-            setCurrentSlide(prev => prev - 1);
-          }
-        }} className="absolute inset-0 w-full h-full">
+          <motion.div
+            key={currentSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: {
+                type: 'spring',
+                stiffness: 300,
+                damping: 30
+              },
+              opacity: {
+                duration: 0.2
+              }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                handleNext();
+              } else if (swipe > swipeConfidenceThreshold && currentSlide > 0) {
+                handlePrev();
+              }
+            }}
+            className="absolute inset-0 w-full h-full"
+          >
             {/* Slide 1: Welcome */}
-            {currentSlide === 0 && <OnboardingSlide title="Your Voice Shapes What America Watches" description="Join thousands of households making an impact on the future of entertainment." icon={<div className="w-16 h-16 bg-[#4A90E2] rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
+            {currentSlide === 0 && (
+              <OnboardingSlide
+                title="Your Voice Shapes What America Watches"
+                description="Join thousands of households making an impact on the future of entertainment."
+                icon={
+                  <div className="w-16 h-16 bg-[#4A90E2] rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
                     <span className="text-white font-bold text-3xl">N</span>
-                  </div>} ctaText="Get Started" onCtaClick={handleNext} />}
+                  </div>
+                }
+              />
+            )}
 
             {/* Slide 2: Trust & Privacy */}
-            {currentSlide === 1 && <OnboardingSlide title="Your Privacy is Our Priority" description="We use bank-level encryption to keep your data 100% secure and confidential." icon={<ShieldCheck className="w-16 h-16 text-[#4A90E2]" />} ctaText="Continue" onCtaClick={handleNext}>
+            {currentSlide === 1 && (
+              <OnboardingSlide
+                title="Your Privacy is Our Priority"
+                description="We use bank-level encryption to keep your data 100% secure and confidential."
+                icon={<ShieldCheck className="w-16 h-16 text-[#4A90E2]" />}
+              >
                 <div className="space-y-4 text-left bg-gray-50 p-6 rounded-2xl border border-gray-100">
                   <div className="flex items-center gap-3">
                     <Lock className="w-5 h-5 text-green-500 shrink-0" />
@@ -131,10 +162,16 @@ export function OnboardingPage({
                     </span>
                   </div>
                 </div>
-              </OnboardingSlide>}
+              </OnboardingSlide>
+            )}
 
             {/* Slide 3: Impact */}
-            {currentSlide === 2 && <OnboardingSlide title="Join 40,000+ Households" description="Be part of a community that has shaped media for over 95 years." icon={<Users className="w-16 h-16 text-[#4A90E2]" />} ctaText="Next" onCtaClick={handleNext}>
+            {currentSlide === 2 && (
+              <OnboardingSlide
+                title="Join 40,000+ Households"
+                description="Be part of a community that has shaped media for over 95 years."
+                icon={<Users className="w-16 h-16 text-[#4A90E2]" />}
+              >
                 <div className="grid grid-cols-1 gap-3">
                   <Card className="bg-blue-50 border-blue-100">
                     <h3 className="font-bold text-gray-900">95+ Years</h3>
@@ -149,10 +186,16 @@ export function OnboardingPage({
                     </p>
                   </Card>
                 </div>
-              </OnboardingSlide>}
+              </OnboardingSlide>
+            )}
 
             {/* Slide 4: Rewards */}
-            {currentSlide === 3 && <OnboardingSlide title="Get Rewarded for Your Time" description="Earn monthly rewards and exclusive perks just for participating." icon={<Gift className="w-16 h-16 text-[#4A90E2]" />} ctaText="Sign Me Up" onCtaClick={handleNext}>
+            {currentSlide === 3 && (
+              <OnboardingSlide
+                title="Get Rewarded for Your Time"
+                description="Earn monthly rewards and exclusive perks just for participating."
+                icon={<Gift className="w-16 h-16 text-[#4A90E2]" />}
+              >
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#4A90E2] to-[#357ABD] p-6 text-white shadow-xl mb-4">
                   <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
                   <div className="relative z-10 text-center">
@@ -169,48 +212,58 @@ export function OnboardingPage({
                     <CheckCircle2 className="w-4 h-4" /> Exclusive perks
                   </span>
                 </div>
-              </OnboardingSlide>}
-
-            {/* Slide 5: Sign Up Form */}
-            {currentSlide === 4 && <OnboardingSlide title="Let's Get Started" description="Create your account to begin your Nielsen journey." icon={<Tv className="w-16 h-16 text-[#4A90E2]" />} isLastSlide>
-                <Card className="space-y-4 text-left">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name
-                    </label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Jane Doe" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="jane@example.com" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone
-                      </label>
-                      <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="(555) 123-4567" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Zip Code
-                      </label>
-                      <input type="text" name="zip" value={formData.zip} onChange={handleInputChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="12345" />
-                    </div>
-                  </div>
-                  <Button onClick={onComplete} fullWidth className="mt-4">
-                    Create Account
-                  </Button>
-                  <p className="text-xs text-gray-500 text-center mt-4">
-                    By continuing, you agree to our Terms of Service and Privacy
-                    Policy.
-                  </p>
-                </Card>
-              </OnboardingSlide>}
+              </OnboardingSlide>
+            )}
           </motion.div>
         </AnimatePresence>
+
+        {/* Navigation Arrows */}
+        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
+          <button
+            onClick={handlePrev}
+            disabled={currentSlide === 0}
+            className={`pointer-events-auto w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center transition-all ${
+              currentSlide === 0
+                ? 'opacity-0 cursor-not-allowed'
+                : 'opacity-100 hover:bg-white'
+            }`}
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={currentSlide === totalSlides - 1}
+            className={`pointer-events-auto w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center transition-all ${
+              currentSlide === totalSlides - 1
+                ? 'opacity-0 cursor-not-allowed'
+                : 'opacity-100 hover:bg-white'
+            }`}
+          >
+            <ChevronRight className="w-6 h-6 text-gray-700" />
+          </button>
+        </div>
+
+        {/* Progress Indicators - At bottom of carousel */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+          {Array.from({ length: totalSlides }).map((_, index) => (
+            <div
+              key={index}
+              className={`h-1 rounded-full transition-all duration-300 ${
+                index === currentSlide 
+                  ? 'w-8 bg-[#4A90E2]' 
+                  : 'w-1.5 bg-gray-300'
+              }`}
+            />
+          ))}
+        </div>
       </div>
-    </div>;
+
+      {/* Email/OTP Section - Fixed at bottom */}
+      <div className="flex-shrink-0 border-t border-gray-200 bg-white p-6 pb-safe">
+        <div className="max-w-md mx-auto">
+          <EmailOTP onVerified={handleEmailVerified} />
+        </div>
+      </div>
+    </div>
+  );
 }
